@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Synthèse — Questionnaire Logo Choupigarde</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --sand: #F5EFE2;
+    --clay: #C4865A;
+    --forest: #3B5A43;
+    --moss: #6B8C6E;
+    --bark: #2E2118;
+    --cream: #FDFAF4;
+    --warm-gray: #8E8478;
+    --accent: #D4622A;
+    --light-green: #EAF0EB;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: var(--cream);
+    color: var(--bark);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--forest);
+    color: var(--cream);
+    padding: 64px 48px 56px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 420px; height: 420px;
+    border-radius: 50%;
+    background: rgba(196,134,90,.18);
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: 30%;
+    width: 280px; height: 280px;
+    border-radius: 50%;
+    background: rgba(107,140,110,.22);
+  }
+  .hero-inner { position: relative; z-index: 1; max-width: 960px; margin: 0 auto; }
+  .hero-tag {
+    display: inline-block;
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 2px;
+    padding: 4px 12px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    color: #d4e8d6;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(38px, 6vw, 68px);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -1px;
+    margin-bottom: 16px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: #C4D8A0;
+  }
+  .hero-sub {
+    font-size: 15px;
+    color: rgba(255,255,255,.65);
+    max-width: 520px;
+    line-height: 1.6;
+    margin-top: 4px;
+  }
+
+  /* ── KPI STRIP ── */
+  .kpi-strip {
+    background: var(--clay);
+    display: flex;
+    gap: 0;
+  }
+  .kpi {
+    flex: 1;
+    padding: 28px 24px;
+    text-align: center;
+    border-right: 1px solid rgba(255,255,255,.2);
+    color: #fff;
+    position: relative;
+  }
+  .kpi:last-child { border-right: none; }
+  .kpi-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 700;
+    display: block;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .kpi-label {
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.75);
+  }
+
+  /* ── MAIN GRID ── */
+  .main { max-width: 1040px; margin: 0 auto; padding: 56px 24px 80px; }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--warm-gray);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #ddd;
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+  .grid-full { margin-bottom: 24px; }
+
+  /* ── CARDS ── */
+  .card {
+    background: #fff;
+    border-radius: 4px;
+    padding: 28px 28px 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06), 0 6px 20px rgba(0,0,0,.04);
+    position: relative;
+  }
+  .card-title {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--warm-gray);
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+  .card-accent {
+    display: block;
+    width: 30px;
+    height: 3px;
+    background: var(--clay);
+    margin-bottom: 10px;
+    border-radius: 2px;
+  }
+
+  /* Interest card */
+  .interest-card { background: var(--forest); color: #fff; }
+  .interest-card .card-title { color: rgba(255,255,255,.6); }
+  .interest-big {
+    font-family: 'Playfair Display', serif;
+    font-size: 96px;
+    font-weight: 900;
+    line-height: 1;
+    color: #C4D8A0;
+    display: block;
+  }
+  .interest-label { font-size: 15px; color: rgba(255,255,255,.75); margin-top: 8px; }
+  .interest-sub { font-size: 12px; color: rgba(255,255,255,.4); margin-top: 6px; }
+
+  /* Bar rows */
+  .bar-row { margin-bottom: 14px; }
+  .bar-row:last-child { margin-bottom: 0; }
+  .bar-meta { display: flex; justify-content: space-between; margin-bottom: 6px; align-items: baseline; }
+  .bar-name { font-size: 13px; color: var(--bark); }
+  .bar-val { font-size: 13px; font-weight: 500; color: var(--forest); }
+  .bar-track { height: 8px; background: #F0EADE; border-radius: 4px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 4px; transition: width .6s ease; }
+  .fill-clay { background: var(--clay); }
+  .fill-forest { background: var(--forest); }
+  .fill-moss { background: var(--moss); }
+  .fill-accent { background: var(--accent); }
+
+  /* Donut placeholder */
+  .chart-wrap { position: relative; height: 200px; display: flex; align-items: center; justify-content: center; }
+  .chart-wrap canvas { max-height: 200px; }
+
+  /* Tag cloud */
+  .tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .tag {
+    background: var(--light-green);
+    color: var(--forest);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+  }
+  .tag.big { font-size: 14px; padding: 8px 18px; }
+  .tag.medium { font-size: 13px; padding: 7px 16px; }
+
+  /* Quote strip */
+  .quotes-strip {
+    background: var(--sand);
+    border-left: 4px solid var(--clay);
+    padding: 20px 24px;
+    border-radius: 0 4px 4px 0;
+  }
+  .quotes-strip p { font-size: 13px; color: var(--bark); line-height: 1.7; margin-bottom: 10px; }
+  .quotes-strip p:last-child { margin-bottom: 0; }
+  .quotes-strip p::before { content: '"'; color: var(--clay); font-size: 18px; }
+
+  /* Conclusion */
+  .conclusion {
+    background: var(--forest);
+    border-radius: 4px;
+    padding: 40px 40px 36px;
+    color: #fff;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 32px;
+  }
+  .conclusion h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 14px;
+    grid-column: 1 / -1;
+  }
+  .conclusion-item { }
+  .conclusion-item h3 { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #C4D8A0; margin-bottom: 8px; }
+  .conclusion-item p { font-size: 13.5px; color: rgba(255,255,255,.75); line-height: 1.65; }
+
+  .footer {
+    text-align: center;
+    font-size: 11px;
+    color: var(--warm-gray);
+    margin-top: 56px;
+    letter-spacing: 1px;
+  }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .grid-2, .grid-3, .conclusion { grid-template-columns: 1fr; }
+    .kpi-strip { flex-wrap: wrap; }
+    .kpi { flex: 1 1 50%; }
+    .hero { padding: 40px 20px; }
+    .main { padding: 32px 16px 56px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Étude consommateur · Août 2026</div>
+    <h1>Logo <em>Choupigarde</em><br>— Synthèse</h1>
+    <p class="hero-sub">Analyse des réponses au questionnaire de validation du logo (mascotte hérisson) pour le futur service de garde d'enfants à domicile.</p>
+  </div>
+</div>
+
+<!-- KPI STRIP -->
+<div class="kpi-strip">
+  <div class="kpi">
+    <span class="kpi-number">15</span>
+    <span class="kpi-label">Répondants</span>
+  </div>
+  <div class="kpi">
+    <span class="kpi-number">3,7/5</span>
+    <span class="kpi-label">Impression générale</span>
+  </div>
+  <div class="kpi">
+    <span class="kpi-number">87%</span>
+    <span class="kpi-label">Veulent en savoir plus</span>
+  </div>
+  <div class="kpi">
+    <span class="kpi-number">73%</span>
+    <span class="kpi-label">Adorent les hérissons</span>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+  <!-- ROW 1 : IMPRESSION + ENVIE D'EN SAVOIR PLUS -->
+  <div class="section-title">01 — Impression générale & intérêt suscité</div>
+  <div class="grid-2" style="align-items:start">
+
+    <!-- Interest -->
+    <div class="card interest-card">
+      <span class="card-accent" style="background:#C4D8A0"></span>
+      <div class="card-title">Envie d'en savoir plus sur le service</div>
+      <span class="interest-big">87%</span>
+      <p class="interest-label">des répondants disent "Oui"</p>
+      <p class="interest-sub">13 Oui · 2 Non / hors cible · 15 total</p>
+    </div>
+
+    <!-- Impression générale -->
+    <div class="card">
+      <span class="card-accent"></span>
+      <div class="card-title">Impression générale du logo (1 à 5)</div>
+      <div class="chart-wrap">
+        <canvas id="chartImpression"></canvas>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ROW 2 : SERVICE PERÇU + HÉRISSONS -->
+  <div class="section-title">02 — Service perçu & choix des hérissons</div>
+  <div class="grid-3">
+
+    <!-- Type de service imaginé -->
+    <div class="card" style="grid-column: span 2">
+      <span class="card-accent"></span>
+      <div class="card-title">Type de service imaginé en découvrant le logo</div>
+      <div class="bar-row">
+        <div class="bar-meta"><span class="bar-name">🧸 Garde d'enfants / babysitting</span><span class="bar-val">10</span></div>
+        <div class="bar-track"><div class="bar-fill fill-forest" style="width:100%"></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-meta"><span class="bar-name">🎨 Activités / lecture</span><span class="bar-val">2</span></div>
+        <div class="bar-track"><div class="bar-fill fill-clay" style="width:20%"></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-meta"><span class="bar-name">🎓 Éducation</span><span class="bar-val">2</span></div>
+        <div class="bar-track"><div class="bar-fill fill-moss" style="width:20%"></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-meta"><span class="bar-name">🍼 Autre (nourriture bébé)</span><span class="bar-val">1</span></div>
+        <div class="bar-track"><div class="bar-fill fill-accent" style="width:10%"></div></div>
+      </div>
+    </div>
+
+    <!-- Avis sur les hérissons -->
+    <div class="card">
+      <span class="card-accent"></span>
+      <div class="card-title">Avis sur les hérissons</div>
+      <div class="chart-wrap">
+        <canvas id="chartHerissons"></canvas>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ROW 3 : ADEQUATION TOUT ÂGE -->
+  <div class="section-title">03 — Adéquation "tout âge"</div>
+  <div class="grid-2">
+    <div class="card">
+      <span class="card-accent"></span>
+      <div class="card-title">Le logo semble-t-il adapté à une garde d'enfants tout âge ?</div>
+      <div class="chart-wrap">
+        <canvas id="chartAge"></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <span class="card-accent"></span>
+      <div class="card-title">Mots associés au logo (en un mot)</div>
+      <div class="tag-cloud">
+        <span class="tag big">Famille</span>
+        <span class="tag big">Enfance</span>
+        <span class="tag medium">Garde / garderie</span>
+        <span class="tag medium">Babysitting</span>
+        <span class="tag">Éducation</span>
+        <span class="tag">Apprentissage</span>
+        <span class="tag">Lecture</span>
+        <span class="tag">Jeux / temps calme</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROW 4 : CIBLE -->
+  <div class="section-title">04 — Profil des répondants</div>
+  <div class="grid-2">
+    <div class="card">
+      <span class="card-accent" style="background:var(--accent)"></span>
+      <div class="card-title">Le service pourrait-il t'intéresser (toi/ton entourage) ?</div>
+      <div class="chart-wrap">
+        <canvas id="chartInteret"></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <span class="card-accent" style="background:var(--accent)"></span>
+      <div class="card-title">A déjà eu recours à de la garde d'enfants</div>
+      <div class="chart-wrap">
+        <canvas id="chartRecours"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROW 5 : VERBATIMS -->
+  <div class="section-title">05 — Pistes d'amélioration évoquées</div>
+  <div class="grid-2">
+
+    <div class="card">
+      <span class="card-accent" style="background:var(--moss)"></span>
+      <div class="card-title">Ce qui plaît le plus</div>
+      <div class="tag-cloud">
+        <span class="tag big">"J'adore, ça donne envie"</span>
+        <span class="tag medium">Doux / rassurant</span>
+        <span class="tag medium">Cute</span>
+        <span class="tag">Chaleureux</span>
+        <span class="tag">Familial</span>
+      </div>
+    </div>
+
+    <div>
+      <div class="quotes-strip">
+        <p>Peut-être mettre autre chose qu'un livre, genre un ballon ou un truc qui fait plus âgé.</p>
+        <p>Trop chargé.</p>
+        <p>Je garderais qu'un seul hérisson.</p>
+        <p>Avec les explications, je comprends qu'il y a le capot d'un landau et pas de roues.</p>
+        <p>Pour moi ce n'est pas un logo, c'est un dessin.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CONCLUSION -->
+  <div class="conclusion">
+    <h2>Points clés à retenir</h2>
+    <div class="conclusion-item">
+      <h3>✅ Accueil favorable</h3>
+      <p>Impression générale de 3,7/5 et 87 % des répondants souhaitent en savoir plus. Les hérissons sont très bien reçus : 73 % "adorent, ça donne envie".</p>
+    </div>
+    <div class="conclusion-item">
+      <h3>🎯 Message globalement compris</h3>
+      <p>67 % associent spontanément le logo à la garde d'enfants ou au babysitting, ce qui confirme la lisibilité du positionnement.</p>
+    </div>
+    <div class="conclusion-item">
+      <h3>⚠️ Point de vigilance : lisibilité du dessin</h3>
+      <p>Plusieurs retours évoquent un visuel "trop chargé" ou un élément (landau) mal identifié sans explication — un signe que le logo gagnerait à être simplifié pour rester lisible en petit format.</p>
+    </div>
+    <div class="conclusion-item">
+      <h3>🎨 Pistes d'amélioration</h3>
+      <p>Simplifier la composition (retirer un hérisson, alléger les détails), et clarifier l'élément "landau" pour qu'il soit reconnaissable sans légende.</p>
+    </div>
+  </div>
+
+  <div class="footer">Questionnaire Logo Choupigarde · 15 répondants · Août 2026</div>
+
+</div>
+
+<script>
+const CLAY    = '#C4865A';
+const FOREST  = '#3B5A43';
+const MOSS    = '#6B8C6E';
+const SAND    = '#D4A86A';
+const ACCENT  = '#D4622A';
+const LIGHT   = '#EAF0EB';
+
+Chart.defaults.font.family = "'DM Sans', sans-serif";
+Chart.defaults.color = '#5A5048';
+
+// ── Impression générale (1-5) ──
+new Chart(document.getElementById('chartImpression'), {
+  type: 'doughnut',
+  data: {
+    labels: ['5 — J\'adore', '4', '3', '2'],
+    datasets: [{ data: [3, 5, 6, 1], backgroundColor: [FOREST, CLAY, MOSS, ACCENT], borderWidth: 0, hoverOffset: 4 }]
+  },
+  options: {
+    cutout: '68%',
+    plugins: {
+      legend: { position: 'right', labels: { boxWidth: 12, padding: 12, font: { size: 12 } } },
+      tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw} réponses` } }
+    }
+  }
+});
+
+// ── Avis sur les hérissons ──
+new Chart(document.getElementById('chartHerissons'), {
+  type: 'doughnut',
+  data: {
+    labels: ['J\'adore / ça donne envie', 'Sympa, sans plus'],
+    datasets: [{ data: [11, 4], backgroundColor: [FOREST, CLAY], borderWidth: 0, hoverOffset: 4 }]
+  },
+  options: {
+    cutout: '68%',
+    plugins: {
+      legend: { position: 'right', labels: { boxWidth: 12, padding: 12, font: { size: 12 } } }
+    }
+  }
+});
+
+// ── Adéquation tout âge ──
+new Chart(document.getElementById('chartAge'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Oui, tout à fait', 'Plutôt oui', 'Plutôt non', 'Avis nuancé'],
+    datasets: [{ data: [5, 5, 4, 1], backgroundColor: [FOREST, MOSS, ACCENT, CLAY], borderWidth: 0, hoverOffset: 4 }]
+  },
+  options: {
+    cutout: '68%',
+    plugins: {
+      legend: { position: 'right', labels: { boxWidth: 12, padding: 12, font: { size: 11 } } }
+    }
+  }
+});
+
+// ── Intérêt personnel / entourage ──
+new Chart(document.getElementById('chartInteret'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Oui / en parlerait autour de soi', 'Non', 'Sans réponse'],
+    datasets: [{ data: [3, 11, 1], backgroundColor: [FOREST, '#ddd', '#eee'], borderWidth: 0, hoverOffset: 4 }]
+  },
+  options: {
+    cutout: '68%',
+    plugins: {
+      legend: { position: 'right', labels: { boxWidth: 12, padding: 12, font: { size: 12 } } }
+    }
+  }
+});
+
+// ── Déjà eu recours à de la garde d'enfants ──
+new Chart(document.getElementById('chartRecours'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Oui', 'Non', 'Pas encore, mais intéressé(e)'],
+    datasets: [{ data: [2, 11, 2], backgroundColor: [FOREST, CLAY, MOSS], borderWidth: 0, hoverOffset: 4 }]
+  },
+  options: {
+    cutout: '68%',
+    plugins: {
+      legend: { position: 'right', labels: { boxWidth: 12, padding: 12, font: { size: 12 } } }
+    }
+  }
+});
+</script>
+</body>
+</html>
